@@ -32,4 +32,4 @@ Before that we need to create the proper [service account](https://kubernetes.io
 
 * Below command can also be used to debug the node where the driver container is running if further debugging on the work node is needed 
 
-  `$ oc dbug –n name_space node/node_name` 
+  `$ oc debug –n name_space node/node_name` 
