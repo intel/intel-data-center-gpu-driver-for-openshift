@@ -3,7 +3,7 @@
 Intel data center GPU driver container images are certified and released on the [Red Hat Ecosystem catalog](https://catalog.redhat.com/).To make the driver container images managed by KMM operator and used by people easily, below name patten is used for naming and tracking each image released.
 
 * **RepositoryName:Tag** image naming patten
-  * **ReposityName:** intel-data-center-gpu-driver-container
+  * **RepositoryName:** intel-data-center-gpu-driver-container
   * **Tag:** DriverVersion--KernelVersion
     * **DriverVersion:** X.Y.Z
       * **X:** update for driver architecture change or major features 
