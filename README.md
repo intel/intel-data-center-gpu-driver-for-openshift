@@ -9,14 +9,14 @@ This project is currently under active development, and as such, all source code
 
 Intel data center GPU driver container image is built from [Intel GPU Driver Repository](https://github.com/intel-gpu). It includes:
 -	[Intel® Graphics (i915) Driver Backports for Linux for RHEL](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/redhat/main)
--	[Intel® Converged Security Engine (CSE) Backports](https://github.com/intel-gpu/intel-gpu-cse-backports/tree/main)
--	[Intel® Platform Monitoring Technology (PMT) Backports](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/main)
+-	[Intel® Converged Security Engine (CSE) Backports for RHEL-8.6](https://github.com/intel-gpu/intel-gpu-cse-backports/tree/rhel86)
+-	[Intel® Platform Monitoring Technology (PMT) Backports for RHEL-8.6](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/rhel86)
 -	[Intel® GPU firmware](https://github.com/intel-gpu/intel-gpu-firmware)
 
 
 To build Intel Data Center GPU driver images and provision the GPU cards on OCP, two scenarios have to be supported.
 
-- **Driver Upgrade Scenario** - There is a new release from Intel GPU Drivers. In this scenario, Intel data center GPU driver Dockerfile needs to be updated to include the new release, Intel data center driver container image will be built and packaged from the Dockerfile. After testing and certifying steps, the new image should be released on Red Hat Ecosystem Catalog.    
+- **Driver Upgrade Scenario** - There is a new release from Intel GPU Drivers.In this scenario, Intel data center GPU driver Dockerfile needs to be updated to include the new release, Intel data center driver container image will be built and packaged from the Dockerfile. After testing and certifying steps, the new image should be released on Red Hat Ecosystem Catalog.    
 - **Kernel Upgrade Scenario** - [Red Hat Enterprise Linux CoreOS (RHCOS)](https://docs.openshift.com/container-platform/4.12/architecture/architecture-rhcos.html) kernel is upgraded in a new OCP release.In this scenario the new data center GPU driver container image should be built to match the new kernel version with the Dockerfile creating the previous image.And the new image also need to be tested, certified and then released on Red Hat Ecoystem Catalog  
 
 ## Working With Kernel Module Manager (KMM) Operator on OCP
