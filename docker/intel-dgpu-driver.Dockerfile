@@ -6,8 +6,8 @@ FROM ${DTK_AUTO} as builder
 
 WORKDIR /build/
 
-# Building cse(MEI) driver
-RUN git clone -b 23WW06.5_555_MAIN --single-branch https://github.com/intel-gpu/intel-gpu-cse-backports.git && cd intel-gpu-cse-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make modules && make modules_install
+# Building cse(MEI) driver. We are disabling this for now as its not currently used.
+# RUN git clone -b 23WW06.5_555_MAIN --single-branch https://github.com/intel-gpu/intel-gpu-cse-backports.git && cd intel-gpu-cse-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make modules && make modules_install
 
 # Building pmt(VSEC) driver
 RUN git clone -b 23WW06.5_555_MAIN --single-branch https://github.com/intel-gpu/intel-gpu-pmt-backports.git && cd intel-gpu-pmt-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make modules && make modules_install
