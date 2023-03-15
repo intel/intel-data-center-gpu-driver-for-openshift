@@ -13,7 +13,7 @@ RUN git clone -b 23WW06.5_555_MAIN --single-branch https://github.com/intel-gpu/
 RUN git clone -b 23WW06.5_555_MAIN --single-branch https://github.com/intel-gpu/intel-gpu-pmt-backports.git && cd intel-gpu-pmt-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make modules && make modules_install
 
 # Building i915 driver
-RUN git clone -b RHEL86_23WW6.5_555_6469.0.3_221221.3 --single-branch https://github.com/intel-gpu/intel-gpu-i915-backports.git && cd intel-gpu-i915-backports && export LEX=flex; export YACC=bison && cp defconfigs/drm .config && make olddefconfig && make -j $(nproc) && make modules_install
+RUN git clone -b RHEL86_23WW6.5_555_6469.0.3_221221.3 --single-branch https://github.com/intel-gpu/intel-gpu-i915-backports.git && cd intel-gpu-i915-backports && export LEX=flex; export YACC=bison && export KBUILD_EXTRA_SYMBOLS=/build/intel-gpu-pmt-backports/drivers/platform/x86/intel/Module.symvers && cp defconfigs/drm .config && make olddefconfig && make -j $(nproc) && make modules_install
 
 # Firmware
 RUN git clone -b 23WW06.5_555 --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git && cd intel-gpu-firmware && mkdir -p firmware/license/ && cp -r COPYRIGHT firmware/license/
