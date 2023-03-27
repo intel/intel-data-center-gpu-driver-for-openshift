@@ -30,4 +30,14 @@ If users want to build the tailored driver container images, [on-premise build m
 
 ## [Debug Intel Data Center GPU Driver on OCP](debug/README.md)
 
+# Contribute
+See [CONTRIBUTING](/CONTRIBUTING.md) for more information.
 
+# License
+Distributed under the open source license. See [LICENSE](/LICENSE.txt) for more information.
+
+# Security
+To report a potential security vulnerability, please refer to [security.md](/security.md) file.
+
+# Code of Conduct
+Intel has adopted the Contributor Covenant as the Code of Conduct for all of its open source projects. See [CODE_OF_CONDUCT](/CODE_OF_CONDUCT.md) file.
