@@ -19,6 +19,14 @@ RUN git clone -b RHEL86_23WW6.5_555_6469.0.3_221221.3 --single-branch https://gi
 RUN git clone -b 23WW06.5_555 --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git && cd intel-gpu-firmware && mkdir -p firmware/license/ && cp -r COPYRIGHT firmware/license/
 
 FROM registry.redhat.io/ubi8/ubi-minimal
+
+LABEL vendor='Intel®'
+LABEL version='0.1.0'
+LABEL release='4.18.0-372.40.1.el8_6.x86_64'
+LABEL name='intel-data-center-gpu-driver-container'
+LABEL summary='Intel® Data Center GPU Driver Container Image'
+LABEL description='Intel® Data Center GPU Driver container image for Red Hat OpenShift Container Platform'
+
 RUN microdnf -y install kmod findutils
 COPY --from=builder /etc/driver-toolkit-release.json /etc/
 COPY --from=builder /lib/modules/$KERNEL_FULL_VERSION/ /opt/lib/modules/$KERNEL_FULL_VERSION/
