@@ -30,6 +30,9 @@ RUN git clone -b 23WW06.5_555 --single-branch https://github.com/intel-gpu/intel
 
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
 
+ARG KERNEL_VERSION
+ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
+
 LABEL vendor='Intel®'
 LABEL version='0.1.0'
 LABEL release=${KERNEL_FULL_VERSION}
@@ -40,7 +43,7 @@ LABEL description='Intel® Data Center GPU Driver container image for Red Hat Op
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /etc/driver-toolkit-release.json /etc/
-COPY --from=builder /lib/modules/$KERNEL_FULL_VERSION/ /opt/lib/modules/$KERNEL_FULL_VERSION/
+COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
 COPY --from=builder /build/intel-gpu-firmware/firmware/ /firmware/i915/
 
-RUN depmod -b /opt
+RUN depmod -b /opt ${KERNEL_FULL_VERSION}
