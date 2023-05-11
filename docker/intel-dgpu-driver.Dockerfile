@@ -35,7 +35,7 @@ ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
 
 LABEL vendor='Intel®'
 LABEL version='0.1.0'
-LABEL release='4.18.0-372.40.1.el8_6.x86_64'
+LABEL release=${KERNEL_FULL_VERSION}
 LABEL name='intel-data-center-gpu-driver-container'
 LABEL summary='Intel® Data Center GPU Driver Container Image'
 LABEL description='Intel® Data Center GPU Driver container image for Red Hat OpenShift Container Platform'
