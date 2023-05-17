@@ -15,6 +15,7 @@ FROM ${DTK_AUTO} as builder
 ARG PMT_RELEASE
 ARG I915_RELEASE
 ARG FIRMWARE_RELEASE
+ARG KERNEL_FULL_VERSION
 
 WORKDIR /build
 
@@ -37,27 +38,40 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
     && cp defconfigs/drm .config \
     && make olddefconfig && make -j $(nproc) && make modules_install
 
+# Create /build/modules directory with all *.ko and *.ko.xz files
+RUN mkdir -p /build/modules && find /lib/modules/${KERNEL_FULL_VERSION}/ -name "*.ko" -type f | xargs -I {} cp {} /build/modules/ \
+    && find /lib/modules/${KERNEL_FULL_VERSION}/ -name "*.ko.xz" -type f | xargs -I {} cp {} /build/modules/ \
+    && install -D /lib/modules/${KERNEL_FULL_VERSION}/modules.order /build/modules/ \
+    && install -D /lib/modules/${KERNEL_FULL_VERSION}/modules.builtin /build/modules/
+
 # Firmware
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
-    && install -D /build/intel-gpu-firmware/COPYRIGHT /build/intel-gpu-firmware/firmware/license/COPYRIGHT
+    && install -D /build/intel-gpu-firmware/COPYRIGHT /build/firmware/license/COPYRIGHT \
+    && cp -r /build/intel-gpu-firmware/firmware/dg2* /build/firmware/
 
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
+# ARG CSE_RELEASE
+ARG PMT_RELEASE
+ARG I915_RELEASE
+ARG FIRMWARE_RELEASE
 
-LABEL vendor='Intel®'
-LABEL version=${DRIVER_VERSION}
-LABEL release=${KERNEL_FULL_VERSION}
-LABEL name='intel-data-center-gpu-driver-container'
-LABEL summary='Intel® Data Center GPU Driver Container Image'
-LABEL description='Intel® Data Center GPU Driver container image for Red Hat OpenShift Container Platform'
+LABEL vendor="Intel®"
+LABEL version="${DRIVER_VERSION}"
+LABEL release="${KERNEL_FULL_VERSION}"
+LABEL name="intel-data-center-gpu-driver-container"
+LABEL summary="Intel® Data Center GPU Driver Container Image"
+LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
+The driver container is based on Intel Data Center GPU driver components - PMT driver release:${PMT_RELEASE}, i915 driver release:${I915_RELEASE}, \
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.12 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /licenses/ /licenses/
 COPY --from=builder /etc/driver-toolkit-release.json /etc/
-COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
-COPY --from=builder /build/intel-gpu-firmware/firmware/ /firmware/i915/
+COPY --from=builder /build/modules/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
+COPY --from=builder /build/firmware/ /firmware/i915/
 
 RUN depmod -b /opt ${KERNEL_FULL_VERSION}
