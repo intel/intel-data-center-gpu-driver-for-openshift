@@ -45,13 +45,19 @@ RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gp
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
+# ARG CSE_RELEASE
+ARG PMT_RELEASE
+ARG I915_RELEASE
+ARG FIRMWARE_RELEASE
 
-LABEL vendor='Intel®'
-LABEL version=${DRIVER_VERSION}
-LABEL release=${KERNEL_FULL_VERSION}
-LABEL name='intel-data-center-gpu-driver-container'
-LABEL summary='Intel® Data Center GPU Driver Container Image'
-LABEL description='Intel® Data Center GPU Driver container image for Red Hat OpenShift Container Platform'
+LABEL vendor="Intel®"
+LABEL version="${DRIVER_VERSION}"
+LABEL release="${KERNEL_FULL_VERSION}"
+LABEL name="intel-data-center-gpu-driver-container"
+LABEL summary="Intel® Data Center GPU Driver Container Image"
+LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
+The driver container is based on Intel Data Center GPU driver components - PMT driver release:${PMT_RELEASE}, i915 driver release:${I915_RELEASE}, \
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.12 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
