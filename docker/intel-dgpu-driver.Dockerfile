@@ -20,14 +20,14 @@ ARG KERNEL_FULL_VERSION
 WORKDIR /build
 
 # Building cse(MEI) driver. We are disabling this for now as it is not currently used.
-# RUN git clone -b ${CSE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-cse-backports.git && cd intel-gpu-cse-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make modules && make modules_install
+# RUN git clone -b ${CSE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-cse-backports.git && cd intel-gpu-cse-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make -j $(nproc) modules && make modules_install
 
 # Building pmt(VSEC) driver
 RUN git clone -b ${PMT_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-pmt-backports.git \
     && cd intel-gpu-pmt-backports \
     && install -D LICENSE /licenses/pmt/LICENSE \
     && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" \
-    && make modules && make modules_install
+    && make -j $(nproc) modules && make modules_install
 
 # Building i915 driver
 RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-i915-backports.git \
