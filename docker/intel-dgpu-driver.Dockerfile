@@ -1,13 +1,23 @@
 # Copyright (c) 2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
+# Intel Data Center GPU driver components combinations.
 # ARG CSE_RELEASE=23WW06.5_555_MAIN
 ARG PMT_RELEASE=23WW06.5_555_MAIN
 ARG I915_RELEASE=RHEL86_23WW6.5_555_6469.0.3_221221.3
 ARG FIRMWARE_RELEASE=23WW06.5_555
+
+# Intel Data Center GPU Driver for OpenShift version.
 ARG DRIVER_VERSION=1.0.0
+
+# RHCOS Kernel version supported by the above driver version.
 ARG KERNEL_VERSION
 ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
+
+# Red Hat DTK image is used as builder image to build kernel driver modules. 
+# Appropriate DTK image is provided with the OCP release, to guarantee compatibility 
+# between the built kernel modules and the OCP version's RHCOS kernel.
+# DTK_AUTO is populated automatically with the appropriate DTK image by KMM operator.
 ARG DTK_AUTO
 
 FROM ${DTK_AUTO} as builder
@@ -50,6 +60,7 @@ RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gp
     && install -D /build/intel-gpu-firmware/COPYRIGHT /build/firmware/license/COPYRIGHT \
     && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/
 
+# Packaging Intel GPU driver components in the base UBI image for certification
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
@@ -58,6 +69,7 @@ ARG PMT_RELEASE
 ARG I915_RELEASE
 ARG FIRMWARE_RELEASE
 
+# Required labels for the image metadata
 LABEL vendor="Intel®"
 LABEL version="${DRIVER_VERSION}"
 LABEL release="${KERNEL_FULL_VERSION}"
