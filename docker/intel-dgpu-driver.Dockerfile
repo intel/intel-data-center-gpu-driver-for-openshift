@@ -48,12 +48,6 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
     && cp defconfigs/drm .config \
     && make olddefconfig && make -j $(nproc) && make modules_install
 
-# Create /build/modules directory with all *.ko and *.ko.xz files
-RUN mkdir -p /build/modules \
-    && find /lib/modules/${KERNEL_FULL_VERSION}/ \
-    -name "*.ko" -o -name "*.ko.xz" -o -name "modules.order" -o -name "modules.builtin" -type f \
-    | xargs -I {} install -D {} /build/modules/
-
 # Firmware
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
@@ -83,7 +77,7 @@ RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /licenses/ /licenses/
 COPY --from=builder /etc/driver-toolkit-release.json /etc/
-COPY --from=builder /build/modules/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
+COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
 COPY --from=builder /build/firmware/ /firmware/i915/
 
 RUN depmod -b /opt ${KERNEL_FULL_VERSION}
