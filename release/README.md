@@ -1,29 +1,28 @@
-## Intel Data Center GPU Driver Container Images For OpenShift Release
-### General
-Intel data center GPU driver container images are certified and released on the [Red Hat Ecosystem catalog](https://catalog.redhat.com/). To make the driver container images managed by KMM operator easy to use and track, the following naming convention is adopted.
+# Intel Data Center GPU Driver for OpenShift Release Information
 
-* **RepositoryName:Tag** image naming pattern
-  * **RepositoryName:** intel-data-center-gpu-driver-container
-  * **Tag:** DriverVersion--KernelVersion
-    * **DriverVersion:** X.Y.Z
-      * **X:** update for driver architecture or major feature change
-        
-        **Example:** 0: drivers for RHEL8.x , 1: drivers for RHEL9.x
-      * **Y:** updates for driver bug fixing or minor feature support
-      * **Z:** updates for building or debugging module change in this project
-    * **KernelVersion:** RHCOS full Kernel version
-        
-        **Example:** 4.18.0-372.40.1.el8_6.x86_64
+# Overview
+Intel Data Center GPU driver container images for OpenShift are Red Hat certified and published on the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/search?q=intel&vendor_name=INTEL%20CORPORATION&p=1). These driver container images are designed to be easily managed by the KMM operator, and they follow the naming convention below.
 
-**Example:** intel-data-center-gpu-driver-container:0.1.0--4.18.0-372.40.1.el8_6.x86_64
+## Naming Convention
+The driver container images in this repository use the following naming pattern:
+![driver container image naming pattern](/release/driver-name.png)
 
-The following table can be used to track the detailed image release information:
+### DriverVersion 
+`x.y.z` versioning pattern is used by the driver version.  
+`x`: for architecture change or major feature improvement in the driver from the Intel GPU repository.   
+`y`: for hot bug fixes or minor feature improvements in the driver from the Intel GPU repository.  
+`z`: for any improvement from this project including building or debugging updates.  
+### KernelVersion 
+KernelVersion represents the full Red Hat CoreOS* (RHCOS) kernel version.
 
-### Table-1. Intel Data Center GPU Driver Container Images for OpenShift Release
+## Driver Signing
+The Intel Data Center GPU drivers in the released container images are signed for secure boot. For more details on enrolling the public key to enable secure boot with RHOCP, please seek support from Red Hat.
 
-`Note: The image release process is in progress and the current information in the table is only an example`
+# Release Information 
+Please refer to the following table to view the detailed release information for each image:
 
--
-    |Intel-data-center-gpu-driver-container|Intel GPU Driver|OpenShift|RHEL|Notes|
-    | ------------- |-------------|-------------|-------------|-------------|
-    |[0.1.0--4.18.0-372.40.1.el8_6.x86_64]() | 550 | 4.12.0/1/2/3/4/5 |8.6||
+| Image | Intel GPU Driver | Intel GPU Card Supported | RHEL Version |
+| ------------- |------------- | ------------------ | ------------- |
+|[intel-data-center-gpu-driver-container:1.0.0-4.18.0-372.46.1.el8_6.x86_64]() | Version 555 <br />- [PMT](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/23WW06.5_555_MAIN) <br />- [i915](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/RHEL86_23WW6.5_555_6469.0.3_221221.3) <br />- [Firmware](https://github.com/intel-gpu/intel-gpu-firmware/tree/23WW06.5_555) | - [Intel® Data Center GPU Flex 140](https://www.intel.com/content/www/us/en/products/sku/230020/intel-data-center-gpu-flex-140/specifications.html) <br />- [Intel® Data Center GPU Flex 170](https://www.intel.com/content/www/us/en/products/sku/230019/intel-data-center-gpu-flex-170/specifications.html) | RHEL 8.6 |
+
+The public key with the signed drivers is distributed [here](/release/dgpu_driver_public_key.der).
