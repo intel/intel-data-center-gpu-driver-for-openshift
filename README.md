@@ -1,34 +1,33 @@
-# Disclaimer 
-This project is currently under active development, and as such, all source code may not be included in any release. This means that the code is subject to change without notice, and that any information contained within the code should be considered as work in progress. 
+# Intel® Data Center GPU Driver for OpenShift* 
 
-# INTEL® Data Center GPU Driver for OpenShift* 
+# Overview
+The Intel Data Center GPU Driver for OpenShift project focuses on the development, packaging, certification, and release of Intel® Data Center GPU driver container images for the [Red Hat OpenShift Container Platform (RHOCP)](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform). This project allows users to leverage the pre-built driver container image to facilitate provisioning of Intel Data Center GPU cards on an OpenShift cluster. Furthermore, users can utilize the Intel Data Center GPU driver dockerfile provided by this project as a reference for constructing their own driver container images on-premises. Intel Data Center GPU driver container images for OpenShift are certified and published on the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/search?q=intel&vendor_name=INTEL%20CORPORATION&p=1).
 
-## General
+The Intel Data Center GPU driver container image is built from the [Intel GPU Repository](https://github.com/intel-gpu). It includes:
+- [Intel® Graphics Driver Backports for Linux* OS (i915) for Red Hat Enterprise Linux (RHEL)](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/redhat/main) 
+- [Intel® Converged Security Engine (Intel® CSE) Backports](https://github.com/intel-gpu/intel-gpu-cse-backports/tree/main)
+- [Intel® Platform Monitoring Technology (Intel® PMT) Backports](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/main)
+- [Intel® GPU firmware](https://github.com/intel-gpu/intel-gpu-firmware)
 
-**Intel Data Center GPU Driver for OpenShift project** is used to build, package, certify and release Intel data center GPU driver container images for [Red Hat OpenShift Container Platform (OCP)](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform). Users can make use of the pre-built driver container image to provision Intel® Data Center GPU cards on OCP. They can also use [Intel data center GPU driver Dockerfile](docker/intel-dgpu-driver.Dockerfile) released from this project as a reference to on-premise build the driver container images and provision the GPU cards. Currently, [Intel® Data Center GPU Flex Series](https://www.intel.com/content/www/us/en/products/docs/discrete-gpus/data-center-gpu/flex-series/overview.html) is supported. [Intel® Data Center GPU Max Series](https://www.intel.com/content/www/us/en/products/details/discrete-gpus/data-center-gpu/max-series.html) support is planned in a future release.
+# Install Intel Data Center GPU Driver on RHOCP
+We recommend users use the [Kernel Module Management (KMM) operator](https://docs.openshift.com/container-platform/4.12/hardware_enablement/kmm-kernel-module-management.html) to install and manage the Intel Data Center GPU driver on RHOCP. The KMM operator can be used to deploy all the necessary driver components as well as the firmware from within the driver container image. 
 
-Intel data center GPU driver container image is built from the [Intel GPU Driver Repository](https://github.com/intel-gpu). It includes:
--	[Intel® Graphics (i915) Driver Backports for Linux for RHEL](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/redhat/main)
--	[Intel® Converged Security Engine (CSE) Backports](https://github.com/intel-gpu/intel-gpu-cse-backports/tree/main)
--	[Intel® Platform Monitoring Technology (PMT) Backports](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/main)
--	[Intel® GPU firmware](https://github.com/intel-gpu/intel-gpu-firmware)
+To install Intel Data Center GPU drivers on OpenShift using the KMM operator, please follow [pre-build mode support](https://github.com/intel/intel-technology-enabling-for-openshift/tree/main/kmmo#managing-intel-dgpu-driver-with-kmm-operator) from the [Intel Technology Enabling for OpenShift](https://github.com/intel/intel-technology-enabling-for-openshift). 
 
+For users who prefer to create customized driver container images, the on-premises build mode is available as an option. This mode enables users to build and deploy their own container images on their OpenShift cluster.
 
-To build Intel Data Center GPU driver container images and provision the GPU cards on OCP, two scenarios have to be supported.
+# Upgrade Intel Data Center GPU Driver with RHOCP
+Upgrading of the Intel Data Center GPU drivers are supported via two scenarios: 
+- **Driver Upgrade Scenario**: This scenario is used when there is a new release from the Intel GPU Driver Repository. After the evaluation, a corresponding Intel Data Center GPU Driver container image will be built, certified, and published on the Red Hat Container Catalog. Users can make use of the KMM Operator to upgrade Intel data center driver with RHOCP.  
+**Notes:** The seamless upgrade feature is still under development in Kernel Module Management project.
+- **Kernel Upgrade Scenario**: To ensure compatibility with each new Red Hat CoreOS (RHCOS) kernel used by RHOCP, the Intel GPU driver container images are re-built with the corresponding kernel version. This image is certified and then published on the Red Hat Container Catalog. KMM Operator can be used to deploy the driver container image matching the new RHCOS kernel version when upgrading the RHOCP cluster.
 
-- **Driver Upgrade Scenario** - There is a new release from Intel GPU Drivers. In this scenario, Intel data center GPU driver Dockerfile needs to be updated to include the new release, Intel data center driver container image will be built and packaged using the Dockerfile. After testing and certifying steps, the new image should be released on Red Hat Ecosystem Catalog.    
-- **Kernel Upgrade Scenario** - [Red Hat Enterprise Linux CoreOS (RHCOS)](https://docs.openshift.com/container-platform/4.12/architecture/architecture-rhcos.html) kernel is upgraded in a new OCP release. In this scenario, the new data center GPU driver container image should be built on the new kernel version and its corresponding Driver Toolkit base image. This mapping is automatically taken care of in the Dockerfile via the [DTK_AUTO build argument](https://github.com/rh-ecosystem-edge/kernel-module-management/blob/main/docs/enhancements/using-dtk-for-building-driver-containers.md#dockerfile-examples) which dynamically retrieves the appropriate Driver Toolkit base image. The new image also needs to be tested, certified and then released on Red Hat Ecosystem Catalog.  
-
-## Working With Kernel Module Management (KMM) Operator on OCP
-[KMM operator](https://github.com/rh-ecosystem-edge/kernel-module-management) is supported from OCP-4.12. Users can leverage it to deploy and manage Intel data center GPU driver container images released from this project.
-
-[Pre-build mode](https://github.com/intel/intel-technology-enabling-for-openshift/tree/main/kmmo#managing-intel-dgpu-driver-with-kmm-operator) is the main usage mode suggested from [Intel Technology Enabling Project](https://github.com/intel/intel-technology-enabling-for-openshift).
-
-If users want to build the tailored driver container image, [on-premise build mode](https://github.com/intel/intel-technology-enabling-for-openshift/tree/main/kmmo#using-on-premise-build-mode) can be used to build the image on the user’s cluster environment. 
-
-## [Intel Data Center GPU Driver Dockerfile Introduction](docker/README.md)
-
-## [Debug Intel Data Center GPU Driver on OCP](debug/README.md)
+# Support
+If users encounter any issues or have questions regarding Intel Data Center Driver with RHOCP, we recommend them seek support through the following channels:
+## Commercial Support from Red Hat
+This project facilitates provisioning pre-built Intel Data Center GPU drivers with [Intel Technology Enabling for OpenShift](https://github.com/intel/intel-technology-enabling-for-openshift) project, which are then certified and published in the Red Hat Container Catalog. Commercial RHOCP release support is outlined in the [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift) and Intel collaborates with Red Hat to address specific requirements from our users.
+## Open-Source Community Support
+Intel Data Center GPU Drivers for OpenShift is run as an open-source project on GitHub. Project GitHub [issues](https://github.com/intel/intel-data-center-gpu-driver-for-openshift/issues) related to pre-built and on-premises driver builds can be used as the primary support interface for users to submit feature requests and report issues to the community. Please provide detailed information about your issue and steps to reproduce it, if possible.
 
 # Contribute
 See [CONTRIBUTING](/CONTRIBUTING.md) for more information.
