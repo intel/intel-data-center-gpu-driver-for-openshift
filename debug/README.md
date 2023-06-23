@@ -1,3 +1,6 @@
+# Disclaimer
+Please note that this module is currently under development and may contain partially implemented features, therefore it is not supported in the current release.
+
 ## Debug Intel Data Center GPU Driver Container Image on OpenShift Cluster 
 
 To debug the driver container image, please make sure the OpenShift cluster is provisioned with Intel Data Center GPU Flex cards available on the cluster nodes. 
