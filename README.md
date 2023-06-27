@@ -12,7 +12,7 @@ The Intel Data Center GPU driver container image is built from the [Intel GPU Re
 # Install Intel Data Center GPU Driver on RHOCP
 We recommend users use the [Kernel Module Management (KMM) operator](https://docs.openshift.com/container-platform/4.12/hardware_enablement/kmm-kernel-module-management.html) to install and manage the Intel Data Center GPU driver on RHOCP. The KMM operator can be used to deploy all the necessary driver components as well as the firmware from within the driver container image. 
 
-To install Intel Data Center GPU drivers on OpenShift using the KMM operator, please follow [pre-build mode support](https://github.com/intel/intel-technology-enabling-for-openshift/tree/main/kmmo#managing-intel-dgpu-driver-with-kmm-operator) from the [Intel Technology Enabling for OpenShift](https://github.com/intel/intel-technology-enabling-for-openshift). 
+To install Intel Data Center GPU drivers on OpenShift using the KMM operator, please follow [pre-build mode support](https://github.com/intel/intel-technology-enabling-for-openshift/tree/main/kmmo#deploy-intel-data-center-gpu-driver-with-pre-build-mode) from the [Intel Technology Enabling for OpenShift](https://github.com/intel/intel-technology-enabling-for-openshift). 
 
 For users who prefer to create customized driver container images, the on-premises build mode is available as an option. This mode enables users to build and deploy their own container images on their OpenShift cluster.
 
