@@ -2,20 +2,20 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel Data Center GPU driver components combinations.
-# ARG CSE_RELEASE=23WW06.5_555_MAIN
-ARG PMT_RELEASE=23WW06.5_555_MAIN
-ARG I915_RELEASE=RHEL86_23WW6.5_555_6469.0.3_221221.3
-ARG FIRMWARE_RELEASE=23WW06.5_555
+# ARG CSE_RELEASE=23WW28.5_647.21_MAIN
+ARG PMT_RELEASE=23WW28.5_647.21_MAIN
+ARG I915_RELEASE=RHEL88_23WW28.5_647.21_23.5.19_230406.22
+ARG FIRMWARE_RELEASE=23WW28.5_647.21
 
 # Intel Data Center GPU Driver for OpenShift version.
-ARG DRIVER_VERSION=1.0.0
+ARG DRIVER_VERSION=1.1.0
 
 # RHCOS Kernel version supported by the above driver version.
 ARG KERNEL_VERSION
 ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
 
-# Red Hat DTK image is used as builder image to build kernel driver modules. 
-# Appropriate DTK image is provided with the OCP release, to guarantee compatibility 
+# Red Hat DTK image is used as builder image to build kernel driver modules.
+# Appropriate DTK image is provided with the OCP release, to guarantee compatibility
 # between the built kernel modules and the OCP version's RHCOS kernel.
 # DTK_AUTO is populated automatically with the appropriate DTK image by KMM operator.
 ARG DTK_AUTO
