@@ -23,7 +23,7 @@ Upgrading of the Intel Data Center GPU drivers are supported via two scenarios:
 - **Kernel Upgrade Scenario**: To ensure compatibility with each new Red Hat CoreOS (RHCOS) kernel used by RHOCP, the Intel GPU driver container images are re-built with the corresponding kernel version. This image is certified and then published on the Red Hat Container Catalog. KMM Operator can be used to deploy the driver container image matching the new RHCOS kernel version when upgrading the RHOCP cluster.
 
 # Support
-If users encounter any issues or have questions regarding Intel Data Center Driver with RHOCP, we recommend them to seek support through the following channels:
+If users encounter any issues or have questions regarding Intel Data Center GPU Driver with RHOCP, we recommend them to seek support through the following channels:
 ## Commercial Support from Red Hat
 This project facilitates provisioning pre-built Intel Data Center GPU drivers with [Intel Technology Enabling for OpenShift](https://github.com/intel/intel-technology-enabling-for-openshift) project, which are then certified and published in the Red Hat Container Catalog. Commercial RHOCP release support is outlined in the [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift) and Intel collaborates with Red Hat to address specific requirements from our users.
 ## Open-Source Community Support
