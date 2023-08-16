@@ -2,13 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel Data Center GPU driver components combinations.
-# ARG CSE_RELEASE=23WW28.5_647.21_MAIN
-ARG PMT_RELEASE=23WW28.5_647.21_MAIN
-ARG I915_RELEASE=RHEL88_23WW28.5_647.21_23.5.19_230406.22
-ARG FIRMWARE_RELEASE=23WW28.5_647.21
+ARG I915_RELEASE=I915_23WW31.5_682.14_23.6.24_230425.29
+ARG FIRMWARE_RELEASE=23WW31.5_682.14
 
 # Intel Data Center GPU Driver for OpenShift version.
-ARG DRIVER_VERSION=1.1.0
+ARG DRIVER_VERSION=2.0.0
 
 # RHCOS Kernel version supported by the above driver version.
 ARG KERNEL_VERSION
@@ -21,45 +19,33 @@ ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
 ARG DTK_AUTO
 
 FROM ${DTK_AUTO} as builder
-# ARG CSE_RELEASE
-ARG PMT_RELEASE
+
 ARG I915_RELEASE
 ARG FIRMWARE_RELEASE
 ARG KERNEL_FULL_VERSION
 
 WORKDIR /build
 
-# Building cse(MEI) driver. We are disabling this for now as it is not currently used.
-# RUN git clone -b ${CSE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-cse-backports.git && cd intel-gpu-cse-backports && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" && make -j $(nproc) modules && make modules_install
-
-# Building pmt(VSEC) driver
-RUN git clone -b ${PMT_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-pmt-backports.git \
-    && cd intel-gpu-pmt-backports \
-    && install -D LICENSE /licenses/pmt/LICENSE \
-    && export OS_TYPE=rhel_8 && export OS_VERSION="8.6" \
-    && make -j $(nproc) modules && make modules_install
-
 # Building i915 driver
 RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-i915-backports.git \
     && cd intel-gpu-i915-backports \
     && install -D COPYING /licenses/i915/COPYING \
     && export LEX=flex; export YACC=bison \
-    && export KBUILD_EXTRA_SYMBOLS=/build/intel-gpu-pmt-backports/drivers/platform/x86/intel/Module.symvers \
-    && cp defconfigs/drm .config \
-    && make olddefconfig && make -j $(nproc) && make modules_install
+    && export OS_TYPE=rhel_9 && export OS_VERSION="9.2" \
+    && cp defconfigs/i915 .config \
+    && make olddefconfig && make modules -j $(nproc) && make modules_install
 
 # Firmware
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /build/firmware/license/COPYRIGHT \
-    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/
+    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/ \
+    && install -D /build/intel-gpu-firmware/firmware/pvc* /build/firmware/
 
 # Packaging Intel GPU driver components in the base UBI image for certification
 FROM registry.redhat.io/ubi8/ubi-minimal:latest
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
-# ARG CSE_RELEASE
-ARG PMT_RELEASE
 ARG I915_RELEASE
 ARG FIRMWARE_RELEASE
 
@@ -70,8 +56,8 @@ LABEL release="${KERNEL_FULL_VERSION}"
 LABEL name="intel-data-center-gpu-driver-container"
 LABEL summary="Intel® Data Center GPU Driver Container Image"
 LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
-The driver container is based on Intel Data Center GPU driver components - PMT driver release:${PMT_RELEASE}, i915 driver release:${I915_RELEASE}, \
-and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.12 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
+The driver container is based on Intel Data Center GPU driver components - i915 driver release:${I915_RELEASE}, \
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.13 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
