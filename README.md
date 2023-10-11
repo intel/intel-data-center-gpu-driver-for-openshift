@@ -4,9 +4,7 @@
 The Intel Data Center GPU Driver for OpenShift project focuses on the development, packaging, certification, and release of Intel® Data Center GPU driver container images for the [Red Hat OpenShift Container Platform (RHOCP)](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform). This project allows users to leverage the pre-built driver container image to facilitate provisioning of Intel Data Center GPU cards on an OpenShift cluster. Furthermore, users can utilize the Intel Data Center GPU driver dockerfile provided by this project as a reference for constructing their own driver container images on-premises. Intel Data Center GPU driver container images for OpenShift are certified and published on the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/intel/intel-data-center-gpu-driver-container/6495ee55c8b2461e35fb8264).
 
 The Intel Data Center GPU driver container image is built from the [Intel GPU Repository](https://github.com/intel-gpu). It includes:
-- [Intel® Graphics Driver Backports for Linux* OS (i915) for Red Hat Enterprise Linux (RHEL)](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/redhat/main) 
-- [Intel® Converged Security Engine (Intel® CSE) Backports](https://github.com/intel-gpu/intel-gpu-cse-backports/tree/main)
-- [Intel® Platform Monitoring Technology (Intel® PMT) Backports](https://github.com/intel-gpu/intel-gpu-pmt-backports/tree/main)
+- [Intel® Graphics Driver Backports for Linux* OS (i915) for Red Hat Enterprise Linux (RHEL)](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/backport/main) with Intel® Converged Security Engine (Intel® CSE) and Intel® Platform Monitoring Technology (Intel® PMT) modules
 - [Intel® GPU firmware](https://github.com/intel-gpu/intel-gpu-firmware)
 
 # Install Intel Data Center GPU Driver on RHOCP
