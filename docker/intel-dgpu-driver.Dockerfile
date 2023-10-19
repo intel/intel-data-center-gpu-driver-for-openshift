@@ -2,15 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel Data Center GPU driver components combinations.
-ARG I915_RELEASE=I915_23WW31.5_682.14_23.6.24_230425.29
-ARG FIRMWARE_RELEASE=23WW31.5_682.14
+ARG I915_RELEASE=I915_23WW39.5_682.38_23.6.37_230425.49
+ARG FIRMWARE_RELEASE=23WW39.5_682.38
 
 # Intel Data Center GPU Driver for OpenShift version.
 ARG DRIVER_VERSION=2.0.0
 
 # RHCOS Kernel version supported by the above driver version.
-ARG KERNEL_VERSION
-ARG KERNEL_FULL_VERSION=${KERNEL_VERSION}
+ARG KERNEL_FULL_VERSION
 
 # Red Hat DTK image is used as builder image to build kernel driver modules.
 # Appropriate DTK image is provided with the OCP release, to guarantee compatibility
@@ -39,11 +38,10 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /build/firmware/license/COPYRIGHT \
-    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/ \
-    && install -D /build/intel-gpu-firmware/firmware/pvc* /build/firmware/
+    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/
 
 # Packaging Intel GPU driver components in the base UBI image for certification
-FROM registry.redhat.io/ubi8/ubi-minimal:latest
+FROM registry.redhat.io/ubi9/ubi-minimal:9.2
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
 ARG I915_RELEASE
@@ -62,7 +60,6 @@ and Firmware release:${FIRMWARE_RELEASE}. This driver container image is support
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /licenses/ /licenses/
-COPY --from=builder /etc/driver-toolkit-release.json /etc/
 COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
 COPY --from=builder /build/firmware/ /firmware/i915/
 
