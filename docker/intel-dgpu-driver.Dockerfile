@@ -55,7 +55,7 @@ LABEL name="intel-data-center-gpu-driver-container"
 LABEL summary="Intel® Data Center GPU Driver Container Image"
 LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
 The driver container is based on Intel Data Center GPU driver components - i915 driver release:${I915_RELEASE}, \
-and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.13 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.14 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
