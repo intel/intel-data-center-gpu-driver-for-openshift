@@ -38,7 +38,8 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /build/firmware/license/COPYRIGHT \
-    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/
+    && install -D /build/intel-gpu-firmware/firmware/dg2* /build/firmware/ \
+    && install -D /build/intel-gpu-firmware/firmware/pvc* /build/firmware/
 
 # Packaging Intel GPU driver components in the base UBI image for certification
 FROM registry.redhat.io/ubi9/ubi-minimal:9.2
