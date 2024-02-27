@@ -34,6 +34,15 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
     && cp defconfigs/i915 .config \
     && make olddefconfig && make modules -j $(nproc) && make modules_install
 
+# Copy out-of-tree drivers to /opt/lib/modules/${KERNEL_FULL_VERSION}/
+RUN for file in $(find /lib/modules/${KERNEL_FULL_VERSION}/updates/ -name "*.ko"); do \
+    cp $file /opt --parents; done
+
+# Create the symbolic link for in-tree dependencies
+RUN ln -s /lib/modules/${KERNEL_FULL_VERSION} /opt/lib/modules/${KERNEL_FULL_VERSION}/host
+
+RUN depmod -b /opt ${KERNEL_FULL_VERSION}
+
 # Firmware
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
@@ -61,7 +70,5 @@ and Firmware release:${FIRMWARE_RELEASE}. This driver container image is support
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /licenses/ /licenses/
-COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
+COPY --from=builder /opt/lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
 COPY --from=builder /build/firmware/ /firmware/i915/
-
-RUN depmod -b /opt ${KERNEL_FULL_VERSION}
