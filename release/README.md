@@ -1,24 +1,24 @@
-# Intel Data Center GPU Driver for OpenShift Release Information
+# Release Information
 
-# Overview
+## Overview
 Intel Data Center GPU driver container images for OpenShift are Red Hat certified and published on the [Red Hat Container Catalog](https://catalog.redhat.com/software/containers/intel/intel-data-center-gpu-driver-container/6495ee55c8b2461e35fb8264). These driver container images are designed to be easily managed by the KMM operator, and they follow the naming convention below.
 
-## Naming Convention
+### Naming Convention
 The driver container images in this repository use the following naming pattern:
 ![driver container image naming pattern](/release/driver-name.png)
 
-### DriverVersion 
+#### DriverVersion 
 `x.y.z` versioning pattern is used by the driver version.  
 `x`: for architecture change or major feature improvement in the driver from the Intel GPU repository.   
 `y`: for hot bug fixes or minor feature improvements in the driver from the Intel GPU repository.  
 `z`: for any improvement from this project including building or debugging updates.  
-### KernelVersion 
+#### KernelVersion 
 KernelVersion represents the full Red Hat CoreOS* (RHCOS) kernel version.
 
-## Driver Signing
+### Driver Signing
 The Intel Data Center GPU drivers in the released container images are signed for secure boot. For more details on enrolling the public key to enable secure boot with RHOCP, please seek support from Red Hat.
 
-# Release Information 
+## Releases  
 Please refer to the following table to view the detailed release information for each image.
 
 The driver containers released support the following Intel GPUs:  
