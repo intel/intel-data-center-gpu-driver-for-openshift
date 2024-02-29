@@ -6,7 +6,7 @@ ARG I915_RELEASE=I915_23WW51.5_682.48_23.6.42_230425.56
 ARG FIRMWARE_RELEASE=23WW49.5_682.48
 
 # Intel Data Center GPU Driver for OpenShift version.
-ARG DRIVER_VERSION=2.1.0
+ARG DRIVER_VERSION=2.2.0
 
 # RHCOS Kernel version supported by the above driver version.
 ARG KERNEL_FULL_VERSION
