@@ -34,6 +34,15 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
     && cp defconfigs/i915 .config \
     && make olddefconfig && make modules -j $(nproc) && make modules_install
 
+# Copy out-of-tree drivers to /opt/lib/modules/${KERNEL_FULL_VERSION}/ and strip debug symbols from modules
+RUN for file in $(find /lib/modules/${KERNEL_FULL_VERSION}/updates/ -name "*.ko"); do \
+    dname=$(dirname /opt$file); mkdir -p $dname; cp $file /opt$file; strip --strip-debug /opt$file; done
+
+# Copy in-tree driver dependencies to /opt/lib/modules/${KERNEL_FULL_VERSION}/
+ARG MODULES="video sysimgblt sysfillrect syscopyarea fb_sys_fops i2c-algo-bit drm rc-core cec drm_kms_helper drm_display_helper"
+    RUN for file in $(for mod in $MODULES; do find /lib/modules/${KERNEL_FULL_VERSION}/ -name $mod.ko.xz; done); do \
+        dname=$(dirname /opt$file); mkdir -p $dname; cp $file /opt$file; done
+
 # Firmware
 RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gpu/intel-gpu-firmware.git \
     && install -D /build/intel-gpu-firmware/COPYRIGHT /licenses/firmware/COPYRIGHT \
@@ -61,7 +70,7 @@ and Firmware release:${FIRMWARE_RELEASE}. This driver container image is support
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
 COPY --from=builder /licenses/ /licenses/
-COPY --from=builder /lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
+COPY --from=builder /opt/lib/modules/${KERNEL_FULL_VERSION}/ /opt/lib/modules/${KERNEL_FULL_VERSION}/
 COPY --from=builder /build/firmware/ /firmware/i915/
 
 RUN depmod -b /opt ${KERNEL_FULL_VERSION}
