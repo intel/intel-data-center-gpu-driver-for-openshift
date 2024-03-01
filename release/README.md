@@ -16,7 +16,7 @@ The driver container images in this repository use the following naming pattern:
 KernelVersion represents the full Red Hat CoreOS* (RHCOS) kernel version.
 
 ### Driver Signing
-The Intel Data Center GPU drivers in the released container images are signed for secure boot. For more details on enrolling the public key to enable secure boot with RHOCP, please seek support from Red Hat.
+The Intel Data Center GPU drivers in the released container images are signed for secure boot. For more details on enrolling the public key to enable secure boot with Red Hat OpenShift Container Platform* (RHOCP), please seek support from Red Hat.
 
 ## Releases  
 Please refer to the following table to view the detailed release information for each image.
@@ -25,7 +25,7 @@ The driver containers released support the following Intel GPUs:
 - [Intel® Data Center GPU Flex 140](https://www.intel.com/content/www/us/en/products/sku/230020/intel-data-center-gpu-flex-140/specifications.html)   
 -  [Intel® Data Center GPU Flex 170](https://www.intel.com/content/www/us/en/products/sku/230019/intel-data-center-gpu-flex-170/specifications.html)
 
-| Image | Intel GPU Driver | RHEL Version | OCP Version |
+| Image | Intel GPU Driver | RHEL Version | RHOCP Version |
 | ------------- |------------- | ------------- | ------------- |
 |[intel-data-center-gpu-driver-container:2.1.0-5.14.0-284.50.1.el9_2.x86_64](https://catalog.redhat.com/software/containers/intel/intel-data-center-gpu-driver-container/6495ee55c8b2461e35fb8264?tag=2.1.0-5.14.0-284.50.1.el9_2.x86_64) | Version 682.48 <br />- [i915](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/I915_23WW51.5_682.48_23.6.42_230425.56) <br />- [Firmware](https://github.com/intel-gpu/intel-gpu-firmware/tree/23WW49.5_682.48) | RHEL 9.2 | OCP 4.14.11 |
 |[intel-data-center-gpu-driver-container:2.1.0-5.14.0-284.48.1.el9_2.x86_64](https://catalog.redhat.com/software/containers/intel/intel-data-center-gpu-driver-container/6495ee55c8b2461e35fb8264?tag=2.1.0-5.14.0-284.48.1.el9_2.x86_64) | Version 682.48 <br />- [i915](https://github.com/intel-gpu/intel-gpu-i915-backports/tree/I915_23WW51.5_682.48_23.6.42_230425.56) <br />- [Firmware](https://github.com/intel-gpu/intel-gpu-firmware/tree/23WW49.5_682.48) | RHEL 9.2 | OCP 4.14.9 <br /> OCP 4.14.10 |
