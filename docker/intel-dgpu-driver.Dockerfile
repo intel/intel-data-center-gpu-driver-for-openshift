@@ -51,7 +51,7 @@ RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gp
     && install -D /build/intel-gpu-firmware/firmware/pvc* /build/firmware/
 
 # Packaging Intel GPU driver components in the base UBI image for certification
-FROM registry.redhat.io/ubi9/ubi-minimal:9.2
+FROM registry.redhat.io/ubi9/ubi-minimal:9.3
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
 ARG I915_RELEASE
