@@ -1,0 +1,25 @@
+# GH Action workflow to run Hadolint on Dockerfile
+name: Hadolint
+
+# Trigger the workflow on push/pull_request event on main branch in the repo
+# workflow_dispatch allows you to run this workflow manually from the Actions tab
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Hadolint on dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/intel-dgpu-driver.Dockerfile
+          failure-threshold: error
+          verbose: true
