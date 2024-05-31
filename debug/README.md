@@ -1,12 +1,16 @@
 # Developers Guide
 
-> Disclaimer: Please note that this module is currently under development and may contain partially implemented features, therefore it is not supported in the current release.
+```{admonition} Disclaimer  
+Please note that this module is currently under development and may contain partially implemented features, therefore it is not supported in the current release.
+```
 
 ## Debug Intel Data Center GPU Driver Container Image on OpenShift Cluster 
 
 To debug the driver container image, please make sure the OpenShift cluster is provisioned with Intel Data Center GPU Flex cards available on the cluster nodes. 
 
-> Note: The following operations are verified on OCP-4.11 and OCP-4.12 cluster with Intel® Data Center GPU Flex 140
+```{note}   
+The following operations are verified on OCP-4.11 and OCP-4.12 cluster with Intel® Data Center GPU Flex 140
+```
 
 ### Debugging Driver Build 
 Firstly, [Red Hat OCP buildconfig](https://docs.openshift.com/container-platform/4.11/cicd/builds/understanding-buildconfigs.html) is used to debug driver building process. The Dockerfile section in [driver-build.yaml](driver-build.yaml) can be updated to debug the building and packaging of the driver container Image. 
