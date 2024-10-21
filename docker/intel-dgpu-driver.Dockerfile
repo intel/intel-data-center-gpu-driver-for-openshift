@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel Data Center GPU driver components combinations.
-ARG I915_RELEASE=I915_23WW51.5_682.48_23.6.42_230425.56
-ARG FIRMWARE_RELEASE=23WW49.5_682.48
+ARG I915_RELEASE=I915_24WW42.2_996.26_24.5.15_240718.18
+ARG FIRMWARE_RELEASE=24WW42.2_996.26
 
 # Intel Data Center GPU Driver for OpenShift version.
-ARG DRIVER_VERSION=2.2.0
+ARG DRIVER_VERSION=3.0.0
 
 # RHCOS Kernel version supported by the above driver version.
 ARG KERNEL_FULL_VERSION
@@ -30,7 +30,7 @@ RUN git clone -b ${I915_RELEASE} --single-branch https://github.com/intel-gpu/in
     && cd intel-gpu-i915-backports \
     && install -D COPYING /licenses/i915/COPYING \
     && export LEX=flex; export YACC=bison \
-    && export OS_TYPE=rhel_9 && export OS_VERSION="9.2" \
+    && export OS_TYPE=rhel_9 && export OS_VERSION="9.4" \
     && cp defconfigs/i915 .config \
     && make olddefconfig && make modules -j $(nproc) && make modules_install
 
@@ -51,7 +51,7 @@ RUN git clone -b ${FIRMWARE_RELEASE} --single-branch https://github.com/intel-gp
     && install -D /build/intel-gpu-firmware/firmware/pvc* /build/firmware/
 
 # Packaging Intel GPU driver components in the base UBI image for certification
-FROM registry.redhat.io/ubi9/ubi-minimal:9.3
+FROM registry.redhat.io/ubi9/ubi-minimal:9.4
 ARG DRIVER_VERSION
 ARG KERNEL_FULL_VERSION
 ARG I915_RELEASE
@@ -65,7 +65,7 @@ LABEL name="intel-data-center-gpu-driver-container"
 LABEL summary="Intel® Data Center GPU Driver Container Image"
 LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
 The driver container is based on Intel Data Center GPU driver components - i915 driver release:${I915_RELEASE}, \
-and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.14 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.16 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
