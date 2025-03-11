@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel Data Center GPU driver components combinations.
-ARG I915_RELEASE=I915_24WW42.2_996.26_24.5.15_240718.18
-ARG FIRMWARE_RELEASE=24WW42.2_996.26
+ARG I915_RELEASE=I915_24WW49.3_803.125_23.10.83_231129.89
+ARG FIRMWARE_RELEASE=24WW51.4_1057.13
 
 # Intel Data Center GPU Driver for OpenShift version.
 ARG DRIVER_VERSION=3.0.0
@@ -59,13 +59,14 @@ ARG FIRMWARE_RELEASE
 
 # Required labels for the image metadata
 LABEL vendor="Intel®"
+LABEL maintainer="Intel®"
 LABEL version="${DRIVER_VERSION}"
 LABEL release="${KERNEL_FULL_VERSION}"
 LABEL name="intel-data-center-gpu-driver-container"
 LABEL summary="Intel® Data Center GPU Driver Container Image"
 LABEL description="Intel® Data Center GPU Driver container image designed for Red Hat OpenShift Container Platform. \
 The driver container is based on Intel Data Center GPU driver components - i915 driver release:${I915_RELEASE}, \
-and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.16 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
+and Firmware release:${FIRMWARE_RELEASE}. This driver container image is supported for RHOCP 4.18 RHCOS kernel version: ${KERNEL_FULL_VERSION}."
 
 RUN microdnf update -y && rm -rf /var/cache/yum
 RUN microdnf -y install kmod findutils && microdnf clean all
